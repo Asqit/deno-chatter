@@ -1,10 +1,11 @@
 import { asset } from "$fresh/runtime.ts";
+import Footer from "../components/Footer.tsx";
 
 export default function Home() {
   return (
     <section>
       <header
-        className={" bg-gradient-to-br from-emerald-200 via-emerald-500 to-emerald-200 p-32"}
+        className={" bg-gradient-to-br from-emerald-200 via-emerald-500 to-emerald-400 p-32"}
       >
         <div
           className={"container mx-auto max-w-5xl flex items-center gap-x-4"}
@@ -59,7 +60,7 @@ export default function Home() {
             <h3 className={"font-semibold text-xl"}>Learn more</h3>
             <h4>Not sure how it works?</h4>
             <a
-              href={"join-room"}
+              href={"faq"}
               className={"px-4 py-2 rounded-md my-2 bg-emerald-500 text-white hover:bg-emerald-700 active:bg-emerald-900 block w-fit"}
             >
               Learn more
@@ -67,43 +68,7 @@ export default function Home() {
           </article>
         </div>
       </main>
-      <footer className={"bg-black text-white p-8"}>
-        <div className="p-8 max-w-4xl mx-auto">
-          <div
-            className={"flex justify-between items-center flex-wrap gap-y-4"}
-          >
-            <div>
-              <p>
-                Website by Ondřej Tuček
-              </p>
-              <a href="https://fresh.deno.dev" target="_blank" rel="external">
-                <span className={"flex items-center gap-x-2"}>
-                  <img
-                    src={asset("images/logo.svg")}
-                    className={"w-[32px] aspect-square"}
-                    alt={"Fresh framework logo"}
-                  />{" "}
-                  Made with <b>Fresh</b>
-                </span>
-              </a>
-            </div>
-            <div className={"md:text-right"}>
-              <p>
-                Feedback? Issue?{" "}
-                <a
-                  rel="external"
-                  target="blank"
-                  className={"underline"}
-                  href={"https://github.com/asqit/deno-chatter"}
-                >
-                  Let me know!
-                </a>
-              </p>
-              <p>Copyright &copy; 2023</p>
-            </div>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </section>
   );
 }
