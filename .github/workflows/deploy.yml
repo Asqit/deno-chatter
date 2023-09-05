@@ -34,12 +34,9 @@ jobs:
           entrypoint: "./main.ts"
           root: "./client"
 
-      - name: Build serveru
-        run: "deno cache --unstable --reload --lock=deps.json server.ts"
-
       - name: Deploy serveru
         uses: denoland/deployctl@v1
         with:
-          project: "deno-chatter-api"
+          project: "deno-chatter"
           entrypoint: "./server.ts"
           root: "./server"
