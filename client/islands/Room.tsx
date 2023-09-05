@@ -7,6 +7,16 @@ interface RoomProps {
   isJoin: boolean;
 }
 
+let location: string;
+
+if (!Deno.env.has("WS_LOCATION")) {
+  load().then((env) => {
+    location = env["WS_LOCATION"];
+  });
+} else {
+  location = Deno.env.get("WS_LOCATION")!;
+}
+
 export default function Room(props: RoomProps) {
   const { roomKey, isJoin, username } = props;
   const [users, setUsers] = useState<string[]>([]);
@@ -18,16 +28,6 @@ export default function Room(props: RoomProps) {
     if (!roomKey || !username) {
       alert("Invalid parameters");
       return;
-    }
-
-    let location;
-
-    if (!Deno.env.has("WS_LOCATION")) {
-      load().then((env) => {
-        location = env["WS_LOCATION"];
-      });
-    } else {
-      location = Deno.env.get("WS_LOCATION");
     }
 
     const ws = new WebSocket(
