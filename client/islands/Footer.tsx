@@ -1,6 +1,8 @@
 import { asset } from "$fresh/runtime.ts";
+import { useDarkMode } from "../hooks/useDarkMode.ts";
 
 export default function Footer() {
+  useDarkMode();
   return (
     <footer className={"bg-black text-white p-8"}>
       <div className="p-8 max-w-4xl mx-auto">

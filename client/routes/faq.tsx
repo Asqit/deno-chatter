@@ -1,5 +1,5 @@
 import { Accordion } from "../components/Accordion.tsx";
-import Footer from "../components/Footer.tsx";
+import Footer from "../islands/Footer.tsx";
 
 export default function Faq() {
   return (
@@ -52,9 +52,18 @@ export default function Faq() {
               </p>
             </>
           </Accordion>
+          <Accordion title="Does it actually work?">
+            <p>
+              Yes it does. This application uses a technology called{" "}
+              <code>websocket</code>{" "}
+              and as such it's really fast. The communication is handled by
+              events rather than having huge mechanism that would call the API.
+              Also by going the event-based way, each client will be notified if
+              anything changes and can immediately react.
+            </p>
+          </Accordion>
         </article>
       </main>
-      <Footer />
     </section>
   );
 }

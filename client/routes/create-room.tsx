@@ -1,49 +1,73 @@
 import { Handlers } from "$fresh/server.ts";
-import CreateRoomForm from "../islands/create-room-form.tsx";
+import Navbar from "../components/Navbar.tsx";
+import Footer from "../islands/Footer.tsx";
 
-export const roomCreationHandler: Handlers = {
-  async GET(req, ctx) {
-    return await ctx.render();
-  },
-
+export const handler: Handlers = {
   async POST(req, ctx) {
     const form = await req.formData();
-    const roomKey = form.get("key")?.toString();
     const username = form.get("username")?.toString();
-
-    const ws = new WebSocket(
-      `ws://localhost:8001/create/${roomKey}/username/${username}`,
-    );
+    const roomKey = form.get("roomKey")?.toString();
 
     const headers = new Headers();
 
-    if (ws.readyState === ws.OPEN) {
-      headers.append("location", `room/${roomKey}`);
-      return new Response(null, {
-        status: 308,
-        headers,
-      });
-    }
-
-    headers.append("location", "connection-error");
-    return new Response(null, { headers, status: 301 });
+    headers.set("location", `/room/create/${roomKey}/${username}`);
+    return new Response(null, {
+      status: 303,
+      headers,
+    });
   },
 };
 
 export default function CreateRoom() {
   return (
-    <section
-      className={"md:min-h-screen md:h-fit md:flex md:items-center md:justify-center md:bg-slate-200"}
-    >
-      <main
-        className={"p-4 container max-w-3xl mx-auto md:mt-8 md:rounded-md md:shadow-lg md:border bg-white"}
+    <>
+      <Navbar />
+      <section
+        className={"md:min-h-screen md:h-fit md:flex md:items-center md:justify-center md:bg-slate-200 md:dark:bg-slate-800"}
       >
-        <h1 className={"text-3xl font-bold my-2"}>Create a new chat room</h1>
-        <h2 className={"text-xl font-semibold my-2 text-slate-400"}>
-          Start by entering unique room key.
-        </h2>
-        <CreateRoomForm />
-      </main>
-    </section>
+        <main
+          className={"p-4 container max-w-3xl mx-auto md:mt-8 md:rounded-md md:shadow-lg bg-white dark:bg-slate-900"}
+        >
+          <h1 className={"text-3xl font-bold my-2"}>Create a new chat room</h1>
+          <h2 className={"text-xl font-semibold my-2 text-slate-400"}>
+            Start by entering unique room key & your username.
+          </h2>
+          <form
+            className={"grid grid-cols-2 grid-rows-2 gap-4 mt-4"}
+            method={"POST"}
+          >
+            <div className={"flex flex-col"}>
+              <label htmlFor={"key"}>Room Key</label>
+              <input
+                type="text"
+                id="roomKey"
+                name="roomKey"
+                className={"rounded-md bg-slate-200 p-2 dark:bg-slate-700"}
+                required
+              />
+            </div>
+
+            <div className={"flex flex-col"}>
+              <label htmlFor={"username"}>Username</label>
+              <input
+                type="text"
+                id="username"
+                name="username"
+                className={"rounded-md bg-slate-200 p-2 dark:bg-slate-700"}
+                required
+              />
+            </div>
+
+            <button
+              className={"col-span-full mt-4 px-4 py-2 rounded-md bg-emerald-500 text-white hover:bg-emerald-700 active:bg-emerald-900 transition-colors duration-300"}
+              type="submit"
+            >
+              Unlock!
+            </button>
+          </form>
+        </main>
+      </section>
+      <Footer />
+    </>
   );
 }
