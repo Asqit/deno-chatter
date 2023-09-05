@@ -1,19 +1,38 @@
 import { useEffect, useState } from "preact/hooks";
-import { useDarkMode } from "../hooks/useDarkMode.ts";
 
-export default function Room() {
-  const username = "anonymous";
-  const roomKey = "test";
+interface RoomProps {
+  roomKey: string;
+  username?: string | "anonymous";
+  isJoin: boolean;
+}
+
+export default function Room(props: RoomProps) {
+  const { roomKey, isJoin, username } = props;
   const [users, setUsers] = useState<string[]>([]);
   const [messages, setMessages] = useState<string[]>([]);
   const [message, setMessage] = useState<string>("");
   const [ws, setWs] = useState<WebSocket>();
-  const { isDarkMode, setDarkTheme, setLightTheme } = useDarkMode();
 
   useEffect(() => {
+    if (!roomKey || !username) {
+      alert("Invalid parameters");
+      return;
+    }
+
     const ws = new WebSocket(
-      `ws://localhost:8080/create/${roomKey}/username/${username}`,
+      `ws://localhost:8080/${
+        isJoin ? "join" : "create"
+      }/${roomKey}/username/${username}`,
     );
+
+    ws.onclose = (e) => {
+      console.warn(`disconnecting...${e}`);
+      alert("Disconnected");
+    };
+
+    ws.onerror = (e) => {
+      console.log(e);
+    };
 
     ws.onmessage = (e) => {
       const data = JSON.parse(e.data);
@@ -23,13 +42,13 @@ export default function Room() {
           prev,
         ) => [
           ...prev,
-          `${data.username}:${data.message}:${data.timestamp}`,
+          `${data.username}: ${data.message}`,
         ]);
         return;
       }
 
       if (data.event === "update-users") {
-        setUsers((prev) => [...prev, data.usernames]);
+        setUsers((_) => [...data.usernames]);
       }
     };
 
@@ -46,10 +65,9 @@ export default function Room() {
         className={"w-1/3 border-r border-slate-300 p-8 max-w-md dark:bg-slate-900 dark:border-slate-500"}
       >
         <h2 className={"font-semibold text-lg"}>Users ({users.length})</h2>
-        <ul>
+        <ul className={"flex flex-col items-center justify-center gap-y-2"}>
           {users.map((user) => <li>{user}</li>)}
         </ul>
-        <button>toggle theme</button>
       </div>
       <div className={"flex-grow flex flex-col p-8"}>
         <ul
@@ -59,14 +77,15 @@ export default function Room() {
             const bits = message.split(":");
             const user = bits[0];
             const msg = bits[1];
-            const time = bits[2];
+
+            console.log(message);
 
             if (user === username) {
               return (
                 <li
                   className={"bg-slate-500 text-white rounded-xl p-2 inline-block self-end justify-self-end"}
                 >
-                  {msg} <span>{time}</span>
+                  {msg}
                 </li>
               );
             }
@@ -104,7 +123,7 @@ export default function Room() {
             value={message}
             name="message"
             type="string"
-            className={"px-2 flex-grow border border-emerald-500 rounded-l-md outline outline-transparent dark:bg-slate-700"}
+            className={"rounded-l-md bg-slate-200 p-2 dark:bg-slate-700 flex-grow border border-slate-600"}
           />
           <button
             type="submit"

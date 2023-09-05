@@ -9,7 +9,7 @@ export default function App(props: AppProps) {
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="stylesheet" href={asset("styles/tailwind.css")} />
+        <link rel="stylesheet" href={asset("/styles/tailwind.css")} />
         <title>Deno Chatter - chat online and anonymous</title>
       </head>
       <body>

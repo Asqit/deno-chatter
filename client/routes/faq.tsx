@@ -56,13 +56,14 @@ export default function Faq() {
             <p>
               Yes it does. This application uses a technology called{" "}
               <code>websocket</code>{" "}
-              and as such the response / request is immediately resolved by the
-              server.
+              and as such it's really fast. The communication is handled by
+              events rather than having huge mechanism that would call the API.
+              Also by going the event-based way, each client will be notified if
+              anything changes and can immediately react.
             </p>
           </Accordion>
         </article>
       </main>
-      <Footer />
     </section>
   );
 }
