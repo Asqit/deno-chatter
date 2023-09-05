@@ -1,4 +1,5 @@
 import { useEffect, useState } from "preact/hooks";
+import Users from "../components/Users.tsx";
 
 interface RoomProps {
   roomKey: string;
@@ -57,15 +58,27 @@ export default function Room(props: RoomProps) {
 
   return (
     <section className={"flex w-full h-screen"}>
+      <input type="checkbox" className={"hidden peer"} id="slider" />
       <div
-        className={"w-1/3 border-r border-slate-300 p-8 max-w-md dark:bg-slate-900 dark:border-slate-500"}
+        className={"w-1/3 border-r border-slate-300 max-w-md dark:bg-slate-900 dark:border-slate-500 relative top-0 left-0 peer-checked:w-0 peer-checked:hidden"}
       >
-        <h2 className={"font-semibold text-lg"}>Users ({users.length})</h2>
-        <ul className={"flex flex-col items-center justify-center gap-y-2"}>
-          {users.map((user) => <li>{user}</li>)}
-        </ul>
+        <label
+          htmlFor={"slider"}
+          className={"hidden flex flex-col items-center justify-center gap-2 absolute -right-8 top-4 border-black border-2 p-2 bg-white"}
+        >
+          <div className={"w-4 h-[0.32rem] block bg-black"} />
+          <div className={"w-4 h-[0.32rem] block bg-black"} />
+        </label>
+        <Users users={users} />
       </div>
-      <div className={"flex-grow flex flex-col p-8"}>
+
+      <div className={"flex-grow flex flex-col p-8 gap-4"}>
+        <header className="p-4 border-b">
+          <h1 className={"text-xl font-bold"}>
+            Room code: <span className={"font-mono text-lg"}>{roomKey}</span>
+          </h1>
+          <h2>Username: {username}</h2>
+        </header>
         <ul
           className={"flex-grow flex flex-col items-start justify-start gap-4 overflow-y-auto"}
         >
@@ -74,10 +87,10 @@ export default function Room(props: RoomProps) {
             const user = bits[0];
             const msg = bits[1];
 
-            if (user === username) {
+            if (user.toUpperCase().trim() === username?.toUpperCase().trim()) {
               return (
                 <li
-                  className={"bg-slate-500 text-white rounded-xl p-2 inline-block self-end justify-self-end"}
+                  className={"bg-emerald-500 text-black rounded-xl p-2 inline-block self-end justify-self-end"}
                 >
                   {msg}
                 </li>
@@ -86,7 +99,7 @@ export default function Room(props: RoomProps) {
 
             return (
               <li
-                className={"bg-emerald-500 text-white dark:text-black rounded-xl p-2 inline-block"}
+                className={"bg-slate-500 text-white rounded-xl p-2 inline-block"}
                 key={index}
               >
                 {<span className={"font-bold"}>{user}</span>}

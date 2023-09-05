@@ -13,6 +13,7 @@ import * as $7 from "./routes/room/create/[key]/[username].tsx";
 import * as $8 from "./routes/room/join/[key]/[username].tsx";
 import * as $$0 from "./islands/Footer.tsx";
 import * as $$1 from "./islands/Room.tsx";
+import * as $$2 from "./islands/ThemeSwitcher.tsx";
 
 const manifest = {
   routes: {
@@ -29,6 +30,7 @@ const manifest = {
   islands: {
     "./islands/Footer.tsx": $$0,
     "./islands/Room.tsx": $$1,
+    "./islands/ThemeSwitcher.tsx": $$2,
   },
   baseUrl: import.meta.url,
 };

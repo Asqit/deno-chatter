@@ -19,7 +19,7 @@ export default function Home() {
             <article>
               <h1 className={"text-3xl md:text-5xl font-bold"}>Deno Chatter</h1>
               <h2 className={"text-2xl "}>
-                Chat anonymously with friends, colleges...
+                Chat anonymously with friends, colleagues...
               </h2>
             </article>
           </div>
