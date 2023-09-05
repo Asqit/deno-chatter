@@ -27,12 +27,12 @@ export default function Room(props: RoomProps) {
     );
 
     ws.onclose = (e) => {
-      console.warn(`disconnecting...${e}`);
       alert("Disconnected");
     };
 
     ws.onerror = (e) => {
       console.log(e);
+      ws.close();
     };
 
     ws.onmessage = (e) => {
@@ -73,8 +73,6 @@ export default function Room(props: RoomProps) {
             const bits = message.split(":");
             const user = bits[0];
             const msg = bits[1];
-
-            console.log(message);
 
             if (user === username) {
               return (
