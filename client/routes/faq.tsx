@@ -52,6 +52,14 @@ export default function Faq() {
               </p>
             </>
           </Accordion>
+          <Accordion title="Does it actually work?">
+            <p>
+              Yes it does. This application uses a technology called{" "}
+              <code>websocket</code>{" "}
+              and as such the response / request is immediately resolved by the
+              server.
+            </p>
+          </Accordion>
         </article>
       </main>
       <Footer />

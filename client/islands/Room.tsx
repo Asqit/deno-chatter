@@ -1,5 +1,5 @@
 import { useEffect, useState } from "preact/hooks";
-import { useDarkMode } from "../useDarkMode.ts";
+import { useDarkMode } from "../hooks/useDarkMode.ts";
 
 export default function Room() {
   const username = "anonymous";

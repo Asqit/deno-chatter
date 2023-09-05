@@ -1,5 +1,5 @@
 import { asset } from "$fresh/runtime.ts";
-import { useDarkMode } from "../useDarkMode.ts";
+import { useDarkMode } from "../hooks/useDarkMode.ts";
 
 export default function Footer() {
   useDarkMode();

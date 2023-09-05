@@ -12,5 +12,9 @@
   },
   "[javascript]": {
     "editor.defaultFormatter": "denoland.vscode-deno"
-  }
+  },
+  "cSpell.words": [
+    "Ondřej",
+    "Tuček"
+  ]
 }
