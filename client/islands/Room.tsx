@@ -1,24 +1,14 @@
-import { load } from "$std/dotenv/mod.ts";
 import { useEffect, useState } from "preact/hooks";
 
 interface RoomProps {
   roomKey: string;
   username?: string | "anonymous";
   isJoin: boolean;
-}
-
-let location: string;
-
-if (!Deno.env.has("WS_LOCATION")) {
-  load().then((env) => {
-    location = env["WS_LOCATION"];
-  });
-} else {
-  location = Deno.env.get("WS_LOCATION")!;
+  baseUrl: string;
 }
 
 export default function Room(props: RoomProps) {
-  const { roomKey, isJoin, username } = props;
+  const { roomKey, isJoin, username, baseUrl } = props;
   const [users, setUsers] = useState<string[]>([]);
   const [messages, setMessages] = useState<string[]>([]);
   const [message, setMessage] = useState<string>("");
@@ -31,7 +21,7 @@ export default function Room(props: RoomProps) {
     }
 
     const ws = new WebSocket(
-      `${location}/${
+      `${baseUrl}/${
         isJoin ? "join" : "create"
       }/${roomKey}/username/${username}`,
     );
