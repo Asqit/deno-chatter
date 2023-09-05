@@ -37,6 +37,6 @@ jobs:
       - name: Deploy serveru
         uses: denoland/deployctl@v1
         with:
-          project: "deno-chatter"
+          project: "deno-chatter-server"
           entrypoint: "./server.ts"
           root: "./server"
