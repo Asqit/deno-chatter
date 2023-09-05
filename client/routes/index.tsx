@@ -1,11 +1,11 @@
 import { asset } from "$fresh/runtime.ts";
-import Footer from "../components/Footer.tsx";
+import Footer from "../islands/Footer.tsx";
 
 export default function Home() {
   return (
     <section>
       <header
-        className={" bg-gradient-to-br from-emerald-200 via-emerald-500 to-emerald-400 p-32"}
+        className={" bg-gradient-to-br from-emerald-200 via-emerald-500 to-emerald-400 dark:from-emerald-600 dark:via-emerald-900 dark:to-emerald-600 p-32"}
       >
         <div
           className={"container mx-auto max-w-5xl flex items-center gap-x-4"}
@@ -29,7 +29,7 @@ export default function Home() {
           className={"grid grid-cols-1 md:grid-cols-2 md:grid-rows-2 gap-4 my-8 md:container md:max-w-5xl md:mx-auto"}
         >
           <article
-            className={"p-8 border border-black rounded-md flex flex-col items-center justify-center text-center"}
+            className={"p-8 border border-black dark:border-white rounded-md flex flex-col items-center justify-center text-center"}
           >
             <h3 className={"font-semibold text-xl"}>Create a new room</h3>
             <h4>
@@ -43,7 +43,7 @@ export default function Home() {
             </a>
           </article>
           <article
-            className={"p-8 border border-black rounded-md flex flex-col items-center justify-center text-center"}
+            className={"p-8 border border-black dark:border-white rounded-md flex flex-col items-center justify-center text-center"}
           >
             <h3 className={"font-semibold text-xl"}>Join existing room</h3>
             <h4>Join already existing chat by entering unique room key.</h4>
@@ -55,7 +55,7 @@ export default function Home() {
             </a>
           </article>
           <article
-            className={"p-8 border border-black rounded-md flex flex-col items-center justify-center text-center md:col-span-2"}
+            className={"p-8 border border-black dark:border-white rounded-md flex flex-col items-center justify-center text-center md:col-span-2"}
           >
             <h3 className={"font-semibold text-xl"}>Learn more</h3>
             <h4>Not sure how it works?</h4>

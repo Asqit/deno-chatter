@@ -5,3 +5,11 @@
 @layer components {
 }
 
+
+html {
+    @apply scroll-smooth
+}
+
+body {
+    @apply antialiased dark:text-white dark:bg-slate-700
+}

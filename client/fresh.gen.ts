@@ -8,9 +8,9 @@ import * as $2 from "./routes/create-room.tsx";
 import * as $3 from "./routes/faq.tsx";
 import * as $4 from "./routes/index.tsx";
 import * as $5 from "./routes/join-room.tsx";
-import * as $6 from "./routes/room/[key].tsx";
-import * as $$0 from "./islands/Room.tsx";
-import * as $$1 from "./islands/create-room-form.tsx";
+import * as $$0 from "./islands/Footer.tsx";
+import * as $$1 from "./islands/Room.tsx";
+import * as $$2 from "./islands/create-room-form.tsx";
 
 const manifest = {
   routes: {
@@ -20,11 +20,11 @@ const manifest = {
     "./routes/faq.tsx": $3,
     "./routes/index.tsx": $4,
     "./routes/join-room.tsx": $5,
-    "./routes/room/[key].tsx": $6,
   },
   islands: {
-    "./islands/Room.tsx": $$0,
-    "./islands/create-room-form.tsx": $$1,
+    "./islands/Footer.tsx": $$0,
+    "./islands/Room.tsx": $$1,
+    "./islands/create-room-form.tsx": $$2,
   },
   baseUrl: import.meta.url,
 };

@@ -1,5 +1,5 @@
 import { Accordion } from "../components/Accordion.tsx";
-import Footer from "../components/Footer.tsx";
+import Footer from "../islands/Footer.tsx";
 
 export default function Faq() {
   return (

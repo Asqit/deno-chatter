@@ -1,10 +1,32 @@
-import { useSignal } from "@preact/signals";
+import { useState } from "preact/hooks";
+import Room from "./Room.tsx";
 
 export default function CreateRoomForm() {
-  const ws = useSignal<WebSocket | null>(null);
+  const [isRoom, setIsRoom] = useState<boolean>(false);
+  const [ws, setWs] = useState<WebSocket>();
+  const [formData, setFormData] = useState({
+    key: "",
+    username: "anonymous",
+  });
 
   const handleSubmit = (e: Event) => {
     e.preventDefault();
+
+    const { key, username } = formData;
+
+    const socket = new WebSocket(
+      `ws://localhost:8001/create/${key}/username/${username}`,
+    );
+
+    socket.onopen = (e) => <Room ws={socket} />;
+
+    socket.send(JSON.stringify({
+      event: "send-message",
+      username,
+      message: "píča",
+    }));
+
+    socket.onmessage = (e) => console.log(e);
   };
 
   return (
@@ -16,7 +38,15 @@ export default function CreateRoomForm() {
         <label htmlFor={"key"}>Room Key</label>
         <input
           type="text"
+          name="key"
           id="key"
+          value={formData.key}
+          onChange={(e) => {
+            setFormData({
+              ...formData,
+              [e.currentTarget.name]: e.currentTarget.value,
+            });
+          }}
           className={"rounded-md bg-slate-200 p-2"}
           required
         />
@@ -27,6 +57,14 @@ export default function CreateRoomForm() {
         <input
           type="text"
           id="username"
+          name="username"
+          value={formData.username}
+          onChange={(e) => {
+            setFormData({
+              ...formData,
+              [e.currentTarget.name]: e.currentTarget.value,
+            });
+          }}
           className={"rounded-md bg-slate-200 p-2"}
           required
         />
