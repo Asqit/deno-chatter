@@ -1,5 +1,6 @@
 import { useEffect, useState } from "preact/hooks";
 import Users from "../components/Users.tsx";
+import Hamburger from "./Hamburger.tsx";
 
 interface RoomProps {
   roomKey: string;
@@ -14,6 +15,7 @@ export default function Room(props: RoomProps) {
   const [messages, setMessages] = useState<string[]>([]);
   const [message, setMessage] = useState<string>("");
   const [ws, setWs] = useState<WebSocket>();
+  const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
 
   useEffect(() => {
     if (!roomKey || !username) {
@@ -57,28 +59,29 @@ export default function Room(props: RoomProps) {
   }, []);
 
   return (
-    <section className={"flex w-full h-screen"}>
-      <input type="checkbox" className={"hidden peer"} id="slider" />
+    <section
+      className={"flex w-full h-screen bg-slate-300 dark:bg-transparent"}
+    >
       <div
-        className={"w-1/3 border-r border-slate-300 max-w-md dark:bg-slate-900 dark:border-slate-500 relative top-0 left-0 peer-checked:w-0 peer-checked:hidden"}
+        className={`w-full h-screen bg-white dark:bg-slate-900 fixed z-10 left-0 md:left-1/2 md:-translate-x-1/2 max-w-3xl ${
+          isMenuOpen ? "top-0" : "-top-full"
+        }`}
       >
-        <label
-          htmlFor={"slider"}
-          className={"hidden flex flex-col items-center justify-center gap-2 absolute -right-8 top-4 border-black border-2 p-2 bg-white"}
-        >
-          <div className={"w-4 h-[0.32rem] block bg-black"} />
-          <div className={"w-4 h-[0.32rem] block bg-black"} />
-        </label>
-        <Users users={users} />
+        <Users
+          users={users}
+          closeMenuCallback={() => setIsMenuOpen(false)}
+          username={username!}
+          roomKey={roomKey!}
+        />
       </div>
 
-      <div className={"flex-grow flex flex-col p-8 gap-4"}>
-        <header className="p-4 border-b">
-          <h1 className={"text-xl font-bold"}>
-            Room code: <span className={"font-mono text-lg"}>{roomKey}</span>
-          </h1>
-          <h2>Username: {username}</h2>
-        </header>
+      <div
+        className={"flex-grow flex flex-col bg-white dark:bg-slate-800 p-8 gap-4 max-w-3xl mx-auto"}
+      >
+        <Hamburger
+          isOpen={isMenuOpen}
+          onClick={() => setIsMenuOpen((p) => !p)}
+        />
         <ul
           className={"flex-grow flex flex-col items-start justify-start gap-4 overflow-y-auto"}
         >

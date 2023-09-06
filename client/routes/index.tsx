@@ -8,12 +8,12 @@ export default function Home() {
       <Navbar />
       <section className={"dark:bg-slate-950"}>
         <header
-          className={" bg-gradient-to-br from-emerald-200 via-emerald-500 to-emerald-400 dark:from-emerald-600 dark:via-emerald-900 dark:to-emerald-600 p-32"}
+          className={"bg-gradient-to-br from-emerald-200 via-emerald-500 to-emerald-400 dark:from-emerald-600 dark:via-emerald-900 dark:to-emerald-600 py-32 px-4"}
         >
           <div
             className={"container mx-auto max-w-5xl flex items-center gap-x-4"}
           >
-            <figure>
+            <figure className={"hidden md:block"}>
               <img src={asset("images/deno_logo.png")} />
             </figure>
             <article>
