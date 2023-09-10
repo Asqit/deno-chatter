@@ -6,7 +6,7 @@ export default function Home() {
   return (
     <>
       <Navbar />
-      <section className={"dark:bg-slate-950"}>
+      <section className={"dark:bg-[#030303]"}>
         <header
           className={"bg-gradient-to-br from-emerald-200 via-emerald-500 to-emerald-400 dark:from-emerald-600 dark:via-emerald-900 dark:to-emerald-600 py-32 px-4"}
         >
@@ -19,7 +19,7 @@ export default function Home() {
             <article>
               <h1 className={"text-3xl md:text-5xl font-bold"}>Deno Chatter</h1>
               <h2 className={"text-2xl "}>
-                Chat anonymously with friends, colleagues...
+                Chat online, free and anonymously
               </h2>
             </article>
           </div>

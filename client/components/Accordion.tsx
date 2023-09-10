@@ -19,7 +19,7 @@ export function Accordion(props: AccordionProps) {
       <input type="checkbox" className={"hidden peer"} id={title} />
       <label
         htmlFor={title}
-        className={"flex flex-grow w-full gap-x-4 items-center transition-colors justify-center font-semibold bg-background-0 dark:bg-background-0-dark p-2 cursor-pointer peer-checked:bg-background-0"}
+        className={"flex select-none flex-grow w-full gap-x-4 items-center transition-colors justify-center font-semibold bg-background-0 dark:bg-background-0-dark p-2 cursor-pointer peer-checked:bg-background-0"}
       >
         {title}
       </label>

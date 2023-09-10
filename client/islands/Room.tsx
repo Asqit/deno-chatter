@@ -1,6 +1,7 @@
 import { useEffect, useState } from "preact/hooks";
 import Users from "../components/Users.tsx";
 import Hamburger from "./Hamburger.tsx";
+import Message from "../components/Message.tsx";
 
 interface RoomProps {
   roomKey: string;
@@ -9,10 +10,18 @@ interface RoomProps {
   baseUrl: string;
 }
 
+/** Websocket's response when message event is caughted */
+interface MessageResponse {
+  message: string;
+  username: string;
+  timestamp: number;
+  event: "send-message";
+}
+
 export default function Room(props: RoomProps) {
   const { roomKey, isJoin, username, baseUrl } = props;
   const [users, setUsers] = useState<string[]>([]);
-  const [messages, setMessages] = useState<string[]>([]);
+  const [messages, setMessages] = useState<MessageResponse[]>([]);
   const [message, setMessage] = useState<string>("");
   const [ws, setWs] = useState<WebSocket>();
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
@@ -42,7 +51,7 @@ export default function Room(props: RoomProps) {
       const data = JSON.parse(e.data);
 
       if (data.event === "send-message") {
-        setMessages((prev) => [...prev, `${data.username}: ${data.message}`]);
+        setMessages((prev) => [...prev, data]);
         return;
       }
 
@@ -63,8 +72,8 @@ export default function Room(props: RoomProps) {
       className={"flex w-full h-screen bg-slate-300 dark:bg-transparent"}
     >
       <div
-        className={`w-full h-screen bg-white dark:bg-slate-900 fixed z-10 left-0 md:left-1/2 md:-translate-x-1/2 max-w-3xl ${
-          isMenuOpen ? "top-0" : "-top-full"
+        className={`w-full h-screen bg-white dark:bg-slate-900 fixed z-10 left-0 md:left-1/2 md:-translate-x-1/2 max-w-3xl transition-all ${
+          isMenuOpen ? "translate-y-0" : "-translate-y-full"
         }`}
       >
         <Users
@@ -78,37 +87,25 @@ export default function Room(props: RoomProps) {
       <div
         className={"flex-grow flex flex-col bg-white dark:bg-slate-800 p-8 gap-4 max-w-3xl mx-auto"}
       >
-        <Hamburger
-          isOpen={isMenuOpen}
-          onClick={() => setIsMenuOpen((p) => !p)}
-        />
+        <div className={"flex-shrink-0"}>
+          <Hamburger
+            isOpen={isMenuOpen}
+            onClick={() => setIsMenuOpen((p) => !p)}
+          />
+        </div>
         <ul
           className={"flex-grow flex flex-col items-start justify-start gap-4 overflow-y-auto"}
         >
           {messages.map((message, index) => {
-            const bits = message.split(":");
-            const user = bits[0];
-            const msg = bits[1];
-
-            if (user.toUpperCase().trim() === username?.toUpperCase().trim()) {
-              return (
-                <li
-                  className={"bg-emerald-500 text-black rounded-xl p-2 inline-block self-end justify-self-end"}
-                >
-                  {msg}
-                </li>
-              );
-            }
-
             return (
-              <li
-                className={"bg-slate-500 text-white rounded-xl p-2 inline-block"}
+              <Message
                 key={index}
-              >
-                {<span className={"font-bold"}>{user}</span>}
-                {":"}
-                {<span>{msg}</span>}
-              </li>
+                username={message.username}
+                value={message.message}
+                timestamp={message.timestamp}
+                isAuthor={message.username.toUpperCase().trim() ===
+                  username!.toUpperCase().trim()}
+              />
             );
           })}
         </ul>
@@ -116,6 +113,9 @@ export default function Room(props: RoomProps) {
           className={"flex mt-4"}
           onSubmit={(e) => {
             e.preventDefault();
+
+            if (!message) return;
+
             if (ws) {
               ws.send(
                 JSON.stringify({

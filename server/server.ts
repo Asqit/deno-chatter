@@ -6,7 +6,6 @@ Deno.serve({ port }, (req: Request) => {
 
   // ---------------------------------------------------------- Join Room
   if (joinMatch) {
-    console.log("client is joining a room");
     const roomKey = joinMatch.pathname.groups.code!;
     const username = joinMatch.pathname.groups.username!;
 

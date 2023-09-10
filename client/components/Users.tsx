@@ -24,7 +24,7 @@ export default function Users(props: UsersProps) {
           onClick={closeMenuCallback}
         />
       </div>
-      <h2 className={"text-xl font-bold"}>Metadata</h2>
+      <h2 className={"text-xl font-bold"}>Room Information</h2>
       <ul>
         <li>
           Room Key: <span>{roomKey}</span>
@@ -41,7 +41,7 @@ export default function Users(props: UsersProps) {
               className={"flex items-center justify-start gap-x-2 text-lg"}
             >
               <span
-                className={"w-4 h-4 rounded-full inline-block bg-emerald-600"}
+                className={"w-2 h-2 rounded-full inline-block bg-emerald-600"}
               />
               {String(user)}
             </li>

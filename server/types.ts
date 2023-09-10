@@ -16,25 +16,22 @@ export interface Room {
 	clients: Client[];
 }
 
-// TODO: figure out the typing system
+/** Base version of our event type */
+export interface BaseEvent {
+	/** time of the event */
+	timestamp: number;
+}
 
 /** Event used to send message in the room */
-export interface MessageEvent {
-	type: "send-message";
+export interface MessageEvent extends BaseEvent {
+	event: "send-message";
 	username: string;
 	message: string;
 }
 
 /** Event used when new client is connected or disconnects */
-export interface UpdateUsersEvent {
-	type: "update-users";
+export interface UpdateUsersEvent extends BaseEvent {
+	event: "update-users";
 	usernames: string[];
 }
 
-/** type we used to differentiate between event types */
-export type PacketEvent = MessageEvent | UpdateUsersEvent;
-
-/** An interface describing the `MessageEvent.data` object */
-export interface Packet<PacketEvent> {
-	event: Event;
-}

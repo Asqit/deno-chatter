@@ -1,10 +1,7 @@
-import { Room } from "./types.ts";
+import { Room, MessageEvent, UpdateUsersEvent } from "./types.ts";
 
 /** port of our http and ws port */
 export const port = 8080;
-
-/** username of our server */
-export const username = "Auxiliary";
 
 /** Non persistent chat rooms */
 export const rooms: Map<string, Room> = new Map();
@@ -18,7 +15,7 @@ export const routes = {
 /**
  * function used to send message to all chat participants inside of room
  * @param key unique key, that points to Room inside rooms map
- * @param message message to send
+ * @param message stringified event
  * @returns {void} nothing
  */
 export function broadcast(key: string, message: string) {
@@ -47,12 +44,15 @@ export function broadcastUsernames(key: string) {
 
   const usernames = room.clients.map((c) => c.username);
 
+  const message: UpdateUsersEvent = {
+    event: "update-users",
+    usernames,
+    timestamp: Date.now()
+  };
+
   broadcast(
     key,
-    JSON.stringify({
-      event: "update-users",
-      usernames,
-    }),
+    JSON.stringify(message),
   );
 }
 
@@ -62,20 +62,31 @@ export function broadcastUsernames(key: string) {
  * @param key ID of the room, where the participant connected
  */
 export function assignHandlers(ws: WebSocket, key: string) {
-  ws.onopen = () => {
+  const SERVER_NAME = `Maid@${key}`; 
+
+  // ----------------------------------------------------------------- onOpen 
+  ws.onopen = (_) => {
+    const room = rooms.get(key);
+    const user = room ? room.clients.find(i => i.ws === ws) : false;
+
+    const message: MessageEvent = {
+      event: "send-message",
+      username: SERVER_NAME,
+      message: user ? `${user.username} has joined the chat` : "New client has joined the chat",
+      timestamp: Date.now()
+    }
+
     broadcastUsernames(key);
     broadcast(
       key,
-      JSON.stringify({
-        event: "send-message",
-        username,
-        message: "New client has joined us",
-      }),
+      JSON.stringify(message),
     );
   };
 
-  ws.onclose = () => {
+  // ----------------------------------------------------------------- onClose 
+  ws.onclose = (_) => {
     const room = rooms.get(key)!;
+    const user = room.clients.find((u => u.ws === ws));
     const newClients = room.clients.filter((client) => client.ws !== ws);
 
     if (newClients.length == 0) {
@@ -90,14 +101,15 @@ export function assignHandlers(ws: WebSocket, key: string) {
       key,
       JSON.stringify({
         event: "send-message",
-        username,
-        message: `user ${undefined} has left the chat`,
+        username: SERVER_NAME,
+        message: `${user?.username} has left the chat.`,
       }),
     );
   };
 
+  // ----------------------------------------------------------------- onMessage 
   ws.onmessage = (message) => {
-    const data = JSON.parse(message.data);
+    const data = JSON.parse(message.data) as MessageEvent | UpdateUsersEvent;
     const room = rooms.get(key)!;
     const client = room.clients.find((c) => c.ws === ws);
 
@@ -108,14 +120,15 @@ export function assignHandlers(ws: WebSocket, key: string) {
           event: "send-message",
           username: client?.username || "anonymous",
           message: data.message,
-          timestamp: Date.now(),
-        }),
+          timestamp: Date.now()
+        } as MessageEvent),
       );
     } else {
-      console.error(`Unknown event: ${data.event}`);
+      console.warn(`Unknown event: ${data.event}`);
     }
   };
 
+  // ----------------------------------------------------------------- onError 
   ws.onerror = (e: Event | ErrorEvent) => {
     console.error(e instanceof ErrorEvent ? e.message : e.type);
   };

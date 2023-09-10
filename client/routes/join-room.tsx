@@ -3,7 +3,7 @@ import Navbar from "../components/Navbar.tsx";
 import Footer from "../islands/Footer.tsx";
 
 export const handler: Handlers = {
-  async POST(req, ctx) {
+  async POST(req, _) {
     const form = await req.formData();
     const username = form.get("username")?.toString();
     const roomKey = form.get("roomKey")?.toString();
