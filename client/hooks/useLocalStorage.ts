@@ -6,7 +6,7 @@ export default function useLocalStorage<T>(
   initialValue: T | (() => T),
 ) {
   const [value, setValue] = useState<T>(() => {
-    const jsonValue = localStorage.getItem(key);
+    const jsonValue = window.localStorage.getItem(key);
 
     if (jsonValue == null) {
       if (typeof initialValue === "function") {
@@ -20,7 +20,7 @@ export default function useLocalStorage<T>(
   });
 
   useEffect(() => {
-    localStorage.setItem(key, JSON.stringify(value));
+    window.localStorage.setItem(key, JSON.stringify(value));
   }, [value, key]);
 
   return [value, setValue] as [T, typeof setValue];
