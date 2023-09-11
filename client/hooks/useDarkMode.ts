@@ -1,52 +1,36 @@
-import { useEffect } from "preact/hooks";
-import useLocalStorage from "./useLocalStorage.ts";
+import { useEffect, useState } from "preact/hooks";
 
 export function useDarkMode() {
-  const [theme, setTheme] = useLocalStorage<string>("theme", "dark");
+  const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
 
   const setLightTheme = () => {
-    setTheme("light");
+    setIsDarkMode(false);
     document.documentElement.classList.remove("dark");
+    localStorage.setItem("theme", "light");
   };
 
   const setDarkTheme = () => {
-    setTheme("dark");
+    setIsDarkMode(true);
     document.documentElement.classList.add("dark");
+    localStorage.setItem("theme", "dark");
   };
 
-  const toggle = () => {
-    if (theme === "dark") setLightTheme();
-    else setDarkTheme();
-  };
-
-  const setThemeByOs = () => {
-    if (self.matchMedia("(prefers-color-scheme: dark)").matches) {
-      setDarkTheme();
-    } else {
-      setLightTheme();
-    }
+  const setOsTheme = () => {
+    localStorage.removeItem("theme");
+    document.documentElement.classList.remove("dark");
   };
 
   useEffect(() => {
-    if (!localStorage.getItem("theme")) {
-      setThemeByOs();
-      return;
-    }
-
-    const theme = JSON.parse(localStorage.getItem("theme")!);
-
-    if (theme === "dark") {
+    if (
+      localStorage.theme === "dark" ||
+      (!("theme" in localStorage) &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches)
+    ) {
       setDarkTheme();
     } else {
       setLightTheme();
     }
   }, []);
 
-  return {
-    isDarkMode: theme,
-    toggle,
-    setThemeByOs,
-    setDarkTheme,
-    setLightTheme,
-  };
+  return { isDarkMode, setDarkTheme, setLightTheme, setOsTheme };
 }
