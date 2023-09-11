@@ -11,7 +11,15 @@ export default function Footer() {
         >
           <div>
             <p>
-              Website by Ondřej Tuček
+              Website by{" "}
+              <a
+                href="https://asqit.deno.dev"
+                className={"underline"}
+                target={"_blank"}
+                rel={"external"}
+              >
+                Ondřej Tuček
+              </a>
             </p>
             <a href="https://fresh.deno.dev" target="_blank" rel="external">
               <span className={"flex items-center gap-x-2"}>

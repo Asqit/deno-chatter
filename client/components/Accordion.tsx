@@ -14,7 +14,7 @@ export function Accordion(props: AccordionProps) {
   return (
     <article
       {...rest}
-      className={"overflow-hidden rounded-md backdrop-blur-md flex items-start flex-col border border-background-5"}
+      className={"overflow-hidden rounded-md backdrop-blur-md flex items-start flex-col border border-slate-300 dark:border-slate-700"}
     >
       <input type="checkbox" className={"hidden peer"} id={title} />
       <label
@@ -24,9 +24,9 @@ export function Accordion(props: AccordionProps) {
         {title}
       </label>
       <span
-        className={"transition-transform duration-300 peer-checked:rotate-90 absolute top-3 right-8 pointer-events-none"}
+        className={"transition-transform duration-300 peer-checked:rotate-45 text-3xl absolute top-0 right-8 pointer-events-none"}
       >
-        &gt;
+        +
       </span>
       <main
         className={"max-h-0 w-full transition-[max-height] duration-300 px-2 peer-checked:max-h-screen bg-background-0/40"}

@@ -1,3 +1,5 @@
+import { useCallback } from "preact/hooks";
+
 interface IHamburgerProps {
   isOpen: boolean;
   onClick: () => void;
@@ -7,11 +9,11 @@ interface IHamburgerProps {
 export default function Hamburger(props: IHamburgerProps) {
   const { isOpen, onClick, containerClassName } = props;
 
-  const handleClick = () => {
+  const handleClick = useCallback(() => {
     if (onClick) {
       onClick();
     }
-  };
+  }, [onClick]);
 
   return (
     <button
@@ -21,7 +23,7 @@ export default function Hamburger(props: IHamburgerProps) {
       className={`w-8 h-8 flex justify-around flex-col flex-wrap cursor-pointer ${containerClassName}`}
     >
       <span
-        className={`dark:bg-slate-200 bg-slate-600 block w-8 h-[0.35rem] rounded transition-all origin-[1px] ${
+        className={`dark:bg-slate-200 bg-black block w-8 h-[0.35rem] rounded transition-all origin-[1px] ${
           isOpen ? "rotate-45" : "rotate-0"
         }`}
       />
@@ -29,11 +31,11 @@ export default function Hamburger(props: IHamburgerProps) {
         className={`block w-8 h-[0.35rem] rounded transition-all origin-[1px] ${
           isOpen
             ? "translate-x-full bg-transparent"
-            : "translate-x-0 dark:bg-slate-200 bg-slate-600"
+            : "translate-x-0 dark:bg-slate-200 bg-black"
         }`}
       />
       <span
-        className={`dark:bg-slate-200 bg-slate-600 block w-8 h-[0.35rem] rounded transition-all origin-[1px] ${
+        className={`dark:bg-slate-200 bg-black block w-8 h-[0.35rem] rounded transition-all origin-[1px] ${
           isOpen ? "rotate-[-45deg]" : "rotate-0"
         }`}
       />

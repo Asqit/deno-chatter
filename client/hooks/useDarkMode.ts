@@ -5,11 +5,13 @@ export function useDarkMode() {
 
   const setLightTheme = () => {
     setIsDarkMode(false);
+    localStorage.setItem("theme", "dark");
     document.documentElement.classList.remove("dark");
   };
 
   const setDarkTheme = () => {
     setIsDarkMode(true);
+    localStorage.setItem("theme", "dark");
     document.documentElement.classList.add("dark");
   };
 

@@ -6,7 +6,7 @@ export default function Home() {
   return (
     <>
       <Navbar />
-      <section className={"dark:bg-[#030303]"}>
+      <section className={"dark:bg-[#0a0f0d]"}>
         <header
           className={"bg-gradient-to-br from-emerald-200 via-emerald-500 to-emerald-400 dark:from-emerald-600 dark:via-emerald-900 dark:to-emerald-600 py-32 px-4"}
         >
@@ -35,14 +35,14 @@ export default function Home() {
             >
               <h3 className={"font-semibold text-xl"}>Create a new room</h3>
               <h4>
-                Create and join a new chat room identified by key defined by
-                you.
+                Create and join a new chat room identified by unique key defined
+                by you.
               </h4>
               <a
                 href={"create-room"}
                 className={"px-4 py-2 rounded-md my-2 bg-emerald-500 text-white hover:bg-emerald-700 active:bg-emerald-900 block w-fit"}
               >
-                Go Create!
+                Create a new Room
               </a>
             </article>
             <article
@@ -54,7 +54,7 @@ export default function Home() {
                 href={"join-room"}
                 className={"px-4 py-2 rounded-md my-2 bg-emerald-500 text-white hover:bg-emerald-700 active:bg-emerald-900 block w-fit"}
               >
-                Go Chatting
+                Join existing chat
               </a>
             </article>
             <article

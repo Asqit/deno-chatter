@@ -1,4 +1,4 @@
-import { Room, MessageEvent, UpdateUsersEvent } from "./types.ts";
+import { MessageEvent, Room, UpdateUsersEvent } from "./types.ts";
 
 /** port of our http and ws port */
 export const port = 8080;
@@ -47,7 +47,7 @@ export function broadcastUsernames(key: string) {
   const message: UpdateUsersEvent = {
     event: "update-users",
     usernames,
-    timestamp: Date.now()
+    timestamp: Date.now(),
   };
 
   broadcast(
@@ -62,19 +62,21 @@ export function broadcastUsernames(key: string) {
  * @param key ID of the room, where the participant connected
  */
 export function assignHandlers(ws: WebSocket, key: string) {
-  const SERVER_NAME = `Maid@${key}`; 
+  const SERVER_NAME = `Maid@${key}`;
 
-  // ----------------------------------------------------------------- onOpen 
+  // ----------------------------------------------------------------- onOpen
   ws.onopen = (_) => {
     const room = rooms.get(key);
-    const user = room ? room.clients.find(i => i.ws === ws) : false;
+    const user = room ? room.clients.find((i) => i.ws === ws) : false;
 
     const message: MessageEvent = {
       event: "send-message",
       username: SERVER_NAME,
-      message: user ? `${user.username} has joined the chat` : "New client has joined the chat",
-      timestamp: Date.now()
-    }
+      message: user
+        ? `${user.username} has joined the chat`
+        : "New client has joined the chat",
+      timestamp: Date.now(),
+    };
 
     broadcastUsernames(key);
     broadcast(
@@ -83,10 +85,10 @@ export function assignHandlers(ws: WebSocket, key: string) {
     );
   };
 
-  // ----------------------------------------------------------------- onClose 
+  // ----------------------------------------------------------------- onClose
   ws.onclose = (_) => {
     const room = rooms.get(key)!;
-    const user = room.clients.find((u => u.ws === ws));
+    const user = room.clients.find((u) => u.ws === ws);
     const newClients = room.clients.filter((client) => client.ws !== ws);
 
     if (newClients.length == 0) {
@@ -96,18 +98,22 @@ export function assignHandlers(ws: WebSocket, key: string) {
 
     room.clients = newClients;
     rooms.set(key, room);
+
+    const message: MessageEvent = {
+      event: "send-message",
+      username: SERVER_NAME,
+      message: `${user?.username} has left the chat.`,
+      timestamp: Date.now(),
+    };
+
     broadcastUsernames(key);
     broadcast(
       key,
-      JSON.stringify({
-        event: "send-message",
-        username: SERVER_NAME,
-        message: `${user?.username} has left the chat.`,
-      }),
+      JSON.stringify(message),
     );
   };
 
-  // ----------------------------------------------------------------- onMessage 
+  // ----------------------------------------------------------------- onMessage
   ws.onmessage = (message) => {
     const data = JSON.parse(message.data) as MessageEvent | UpdateUsersEvent;
     const room = rooms.get(key)!;
@@ -120,7 +126,7 @@ export function assignHandlers(ws: WebSocket, key: string) {
           event: "send-message",
           username: client?.username || "anonymous",
           message: data.message,
-          timestamp: Date.now()
+          timestamp: Date.now(),
         } as MessageEvent),
       );
     } else {
@@ -128,7 +134,7 @@ export function assignHandlers(ws: WebSocket, key: string) {
     }
   };
 
-  // ----------------------------------------------------------------- onError 
+  // ----------------------------------------------------------------- onError
   ws.onerror = (e: Event | ErrorEvent) => {
     console.error(e instanceof ErrorEvent ? e.message : e.type);
   };

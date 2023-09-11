@@ -1,6 +1,7 @@
 import { Handlers } from "$fresh/server.ts";
 import Navbar from "../components/Navbar.tsx";
 import Footer from "../islands/Footer.tsx";
+import VerifiedInput from "../islands/VerifiedInput.tsx";
 
 export const handler: Handlers = {
   async POST(req, _) {
@@ -38,10 +39,11 @@ export default function CreateRoom() {
           >
             <div className={"flex flex-col"}>
               <label htmlFor={"key"}>Room Key</label>
-              <input
+              <VerifiedInput
                 type="text"
                 id="roomKey"
                 name="roomKey"
+                defaultValue={"main"}
                 className={"rounded-md bg-slate-200 p-2 dark:bg-slate-700"}
                 required
               />
@@ -49,10 +51,11 @@ export default function CreateRoom() {
 
             <div className={"flex flex-col"}>
               <label htmlFor={"username"}>Username</label>
-              <input
+              <VerifiedInput
                 type="text"
                 id="username"
                 name="username"
+                defaultValue={"Anonymous"}
                 className={"rounded-md bg-slate-200 p-2 dark:bg-slate-700"}
                 required
               />
@@ -62,7 +65,7 @@ export default function CreateRoom() {
               className={"col-span-full mt-4 px-4 py-2 rounded-md bg-emerald-500 text-white hover:bg-emerald-700 active:bg-emerald-900 transition-colors duration-300"}
               type="submit"
             >
-              Unlock!
+              Create a new room!
             </button>
           </form>
         </main>

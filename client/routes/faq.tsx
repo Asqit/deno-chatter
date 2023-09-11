@@ -4,7 +4,7 @@ import Footer from "../islands/Footer.tsx";
 
 export default function Faq() {
   return (
-    <section className={"dark:bg-[#181818]"}>
+    <section className={"dark:bg-[#0a0f0d]"}>
       <Navbar />
       <header className={"bg-black text-white"}>
         <div className={"container max-w-4xl mx-auto p-32"}>
