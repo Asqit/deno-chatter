@@ -49,7 +49,7 @@ export default function Room(props: RoomProps) {
 
     ws.onerror = (e) => {
       console.error(e);
-      alert("An Error occurred...sorry 😿");
+      alert("An Error occurred... Sorry 😿");
       ws.close();
     };
 
@@ -110,10 +110,10 @@ export default function Room(props: RoomProps) {
 
   return (
     <section
-      className={"flex w-full h-screen bg-slate-300 dark:bg-transparent md:p-4"}
+      className={"flex w-full h-screen bg-zinc-300 md:p-4 dark:bg-zinc-900"}
     >
       <div
-        className={`w-full h-screen md:rounded-xl md:h-[calc(100vh-2rem)] bg-white/40 dark:bg-slate-900/40 backdrop-blur-md fixed z-10 left-0 md:left-1/2 md:-translate-x-1/2 max-w-3xl transition-all duration-300 ${
+        className={`w-full h-screen md:rounded-xl md:h-[calc(100vh-2rem)] bg-white/40 dark:bg-zinc-900/40 backdrop-blur-md fixed z-10 left-0 md:left-1/2 md:-translate-x-1/2 max-w-3xl transition-all duration-300 ${
           isMenuOpen ? "translate-y-0" : "translate-y-[110%]"
         }`}
       >
@@ -126,10 +126,10 @@ export default function Room(props: RoomProps) {
       </div>
 
       <div
-        className={"flex-grow flex flex-col bg-white dark:bg-slate-800 p-8 gap-4 max-w-3xl mx-auto md:rounded-xl md:shadow-lg"}
+        className={"flex-grow flex flex-col bg-white dark:bg-zinc-800 p-8 gap-4 max-w-3xl mx-auto md:rounded-xl md:shadow-lg"}
       >
         <div
-          className={"flex flex-shrink-0 items-center justify-between border-b dark:border-slate-700"}
+          className={"flex flex-shrink-0 items-center justify-between border-b dark:border-zinc-700"}
         >
           <Brand />
           <Hamburger
@@ -144,7 +144,7 @@ export default function Room(props: RoomProps) {
           onSubmit={handleSubmit}
         >
           <input
-            className={"rounded-l-md bg-slate-200 p-2 dark:bg-slate-700 flex-grow border border-slate-300 dark:border-slate-600"}
+            className={"rounded-l-md bg-zinc-200 p-2 dark:bg-zinc-700 flex-grow border border-zinc-300 dark:border-zinc-600"}
             onChange={handleChange}
             value={message}
             name="message"

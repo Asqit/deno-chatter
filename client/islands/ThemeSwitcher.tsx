@@ -1,14 +1,14 @@
 import { useDarkMode } from "../hooks/useDarkMode.ts";
 
 export default function ThemeSwitcher() {
-  const { isDarkMode, setDarkTheme, setLightTheme } = useDarkMode();
+  const { isDarkMode, toggle } = useDarkMode();
 
   return (
     <button
-      className={"hover:underline"}
-      onClick={isDarkMode ? setLightTheme : setDarkTheme}
+      onClick={toggle}
+      className={`hover:underline`}
     >
-      {isDarkMode ? "light theme" : "dark theme"}
+      {isDarkMode === "dark" ? "Light" : "Dark"}
     </button>
   );
 }

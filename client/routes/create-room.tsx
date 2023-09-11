@@ -24,13 +24,13 @@ export default function CreateRoom() {
     <>
       <Navbar />
       <section
-        className={"min-h-screen h-fit md:flex md:items-center md:justify-center md:bg-slate-200 dark:bg-slate-900 md:dark:bg-slate-800"}
+        className={"pt-4 md:py-32"}
       >
         <main
-          className={"p-4 h-full md:h-fit container max-w-3xl mx-auto md:mt-8 md:rounded-md md:shadow-lg bg-white dark:bg-slate-900"}
+          className={"p-4 mt-8 h-full md:h-fit container max-w-3xl mx-auto md:mt-8 md:rounded-md md:shadow-lg md:bg-white md:dark:bg-zinc-900"}
         >
           <h1 className={"text-3xl font-bold my-2"}>Create a new chat room</h1>
-          <h2 className={"text-xl font-semibold my-2 text-slate-400"}>
+          <h2 className={"text-xl font-semibold my-2 text-zinc-400"}>
             Start by entering unique room key & your username.
           </h2>
           <form
@@ -43,8 +43,7 @@ export default function CreateRoom() {
                 type="text"
                 id="roomKey"
                 name="roomKey"
-                defaultValue={"main"}
-                className={"rounded-md bg-slate-200 p-2 dark:bg-slate-700"}
+                className={"rounded-md bg-zinc-200 p-2 dark:bg-zinc-700"}
                 required
               />
             </div>
@@ -55,8 +54,7 @@ export default function CreateRoom() {
                 type="text"
                 id="username"
                 name="username"
-                defaultValue={"Anonymous"}
-                className={"rounded-md bg-slate-200 p-2 dark:bg-slate-700"}
+                className={"rounded-md bg-zinc-200 p-2 dark:bg-zinc-700"}
                 required
               />
             </div>
@@ -70,7 +68,6 @@ export default function CreateRoom() {
           </form>
         </main>
       </section>
-      <Footer />
     </>
   );
 }

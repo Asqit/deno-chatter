@@ -1,6 +1,5 @@
 import { Handlers } from "$fresh/server.ts";
 import Navbar from "../components/Navbar.tsx";
-import Footer from "../islands/Footer.tsx";
 import VerifiedInput from "../islands/VerifiedInput.tsx";
 
 export const handler: Handlers = {
@@ -24,13 +23,13 @@ export default function JoinRoom() {
     <>
       <Navbar />
       <section
-        className={"min-h-screen h-fit md:flex md:items-center md:justify-center md:bg-slate-200 dark:bg-slate-900 md:dark:bg-slate-800"}
+        className={"pt-4 md:py-32"}
       >
         <main
-          className={"p-4 h-full md:h-fit container max-w-3xl mx-auto md:mt-8 md:rounded-md md:shadow-lg bg-white dark:bg-slate-900"}
+          className={"p-4 h-full md:h-fit container max-w-3xl mx-auto md:mt-8 md:rounded-md md:shadow-lg md:bg-white md:dark:bg-zinc-900"}
         >
           <h1 className={"text-3xl font-bold my-2"}>Join existing room</h1>
-          <h2 className={"text-xl font-semibold my-2 text-slate-400"}>
+          <h2 className={"text-xl font-semibold my-2 text-zinc-400"}>
             Start by entering unique room key.
           </h2>
           <form
@@ -43,7 +42,7 @@ export default function JoinRoom() {
                 type="text"
                 id="roomKey"
                 name="roomKey"
-                className={"rounded-md bg-slate-200 p-2 dark:bg-slate-700"}
+                className={"rounded-md bg-zinc-200 p-2 dark:bg-zinc-700"}
                 required
               />
             </div>
@@ -54,7 +53,7 @@ export default function JoinRoom() {
                 type="text"
                 id="username"
                 name="username"
-                className={"rounded-md bg-slate-200 p-2 dark:bg-slate-700"}
+                className={"rounded-md bg-zinc-200 p-2 dark:bg-zinc-700"}
                 required
               />
             </div>
@@ -68,7 +67,6 @@ export default function JoinRoom() {
           </form>
         </main>
       </section>
-      <Footer />
     </>
   );
 }

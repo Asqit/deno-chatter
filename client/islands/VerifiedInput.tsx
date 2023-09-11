@@ -11,18 +11,18 @@ export default function VerifiedInput(
   props: JSX.HTMLAttributes<HTMLInputElement>,
 ) {
   const { className, ...rest } = props;
-  const [error, setError] = useState<string>("");
+  const [error, setError] = useState<boolean>(false);
   const [value, setValue] = useState<ValueType>("");
 
   const handleChange = useCallback((e: Event) => {
-    setError("");
+    setError(false);
 
     const target = (e.target) as HTMLInputElement;
     const value = target.value;
     const regex = /^[A-Za-z0-9]+$/;
 
     if (!regex.test(value)) {
-      setError("Invalid value");
+      setError(true);
       setValue("");
     } else {
       setValue(value);
@@ -41,14 +41,6 @@ export default function VerifiedInput(
           error ? "outline-red-600" : "outline-transparent"
         }`}
       />
-      {error
-        ? (
-          <>
-            <br />
-            <span className={"font-mono text-red-600"}>{error}</span>
-          </>
-        )
-        : null}
     </div>
   );
 }

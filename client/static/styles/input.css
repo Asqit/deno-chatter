@@ -11,5 +11,5 @@ html {
 }
 
 body {
-    @apply antialiased dark:text-white dark:bg-slate-700
+    @apply antialiased dark:text-white dark:bg-zinc-950
 }
