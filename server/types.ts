@@ -5,6 +5,12 @@ export interface Client {
 
 	/** client's websocket reference */
 	ws: WebSocket;
+
+	/** chat moderator */
+	moderator?: WebSocket;
+
+	/** each room can be locked by password (managed by moderator) */
+	password?: string;
 }
 
 /** interface used to describe room */
@@ -35,3 +41,9 @@ export interface UpdateUsersEvent extends BaseEvent {
 	usernames: string[];
 }
 
+export interface ModeratorMessageEvent extends BaseEvent {
+	event: "moderator-message";
+	message: string;
+}
+
+export type AppEvents = UpdateUsersEvent | MessageEvent | ModeratorMessageEvent;

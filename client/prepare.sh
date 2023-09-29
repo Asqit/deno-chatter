@@ -66,7 +66,8 @@ function main {
   if [ ! -e "tailwindcss" ]; then 
     local target=$(evaluate_platform)
     fetch_tailwind "$target"
-  else 
+  else
+    echo "Nothing to do 🤷 all set up." 
     exit 0
   fi
 }

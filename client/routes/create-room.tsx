@@ -1,6 +1,5 @@
 import { Handlers } from "$fresh/server.ts";
 import Navbar from "../components/Navbar.tsx";
-import Footer from "../islands/Footer.tsx";
 import VerifiedInput from "../islands/VerifiedInput.tsx";
 
 export const handler: Handlers = {

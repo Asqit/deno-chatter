@@ -1,4 +1,4 @@
-import { MessageEvent, Room, UpdateUsersEvent } from "./types.ts";
+import { AppEvents, MessageEvent, ModeratorMessageEvent, Room, UpdateUsersEvent } from "./types.ts";
 
 /** port of our http and ws port */
 export const port = 8080;
@@ -8,8 +8,8 @@ export const rooms: Map<string, Room> = new Map();
 
 /** An object containing all possible routes for our HTTP server */
 export const routes = {
-  join_room: new URLPattern({ pathname: "/join/:code/username/:username" }),
-  create_room: new URLPattern({ pathname: "/create/:code/username/:username" }),
+	join_room: new URLPattern({ pathname: "/join/:code/username/:username" }),
+	create_room: new URLPattern({ pathname: "/create/:code/username/:username" }),
 };
 
 /**
@@ -19,14 +19,14 @@ export const routes = {
  * @returns {void} nothing
  */
 export function broadcast(key: string, message: string) {
-  const room = rooms.get(key);
+	const room = rooms.get(key);
 
-  if (!room) {
-    console.error("404 : Room not found");
-    return;
-  }
+	if (!room) {
+		console.error("404 : Room not found");
+		return;
+	}
 
-  room.clients.forEach((client) => client.ws.send(message));
+	room.clients.forEach((client) => client.ws.send(message));
 }
 
 /**
@@ -35,25 +35,22 @@ export function broadcast(key: string, message: string) {
  * @returns {void} nothing
  */
 export function broadcastUsernames(key: string) {
-  const room = rooms.get(key);
+	const room = rooms.get(key);
 
-  if (!room) {
-    console.error("404 : Room not found");
-    return;
-  }
+	if (!room) {
+		console.error("404 : Room not found");
+		return;
+	}
 
-  const usernames = room.clients.map((c) => c.username);
+	const usernames = room.clients.map((c) => c.username);
 
-  const message: UpdateUsersEvent = {
-    event: "update-users",
-    usernames,
-    timestamp: Date.now(),
-  };
+	const message: UpdateUsersEvent = {
+		event: "update-users",
+		usernames,
+		timestamp: Date.now(),
+	};
 
-  broadcast(
-    key,
-    JSON.stringify(message),
-  );
+	broadcast(key, JSON.stringify(message));
 }
 
 /**
@@ -62,80 +59,99 @@ export function broadcastUsernames(key: string) {
  * @param key ID of the room, where the participant connected
  */
 export function assignHandlers(ws: WebSocket, key: string) {
-  const SERVER_NAME = `Maid@${key}`;
+	const SERVER_NAME = `Maid@${key}`;
 
-  // ----------------------------------------------------------------- onOpen
-  ws.onopen = (_) => {
-    const room = rooms.get(key);
-    const user = room ? room.clients.find((i) => i.ws === ws) : false;
+	// ----------------------------------------------------------------- onOpen
+	ws.onopen = (_) => {
+		const room = rooms.get(key);
+		const user = room ? room.clients.find((i) => i.ws === ws) : false;
 
-    const message: MessageEvent = {
-      event: "send-message",
-      username: SERVER_NAME,
-      message: user
-        ? `${user.username} has joined the chat`
-        : "New client has joined the chat",
-      timestamp: Date.now(),
-    };
+		const message: MessageEvent = {
+			event: "send-message",
+			username: SERVER_NAME,
+			message: user ? `${user.username} has joined the chat` : "New client has joined the chat",
+			timestamp: Date.now(),
+		};
 
-    broadcastUsernames(key);
-    broadcast(
-      key,
-      JSON.stringify(message),
-    );
-  };
+		broadcastUsernames(key);
+		broadcast(key, JSON.stringify(message));
+	};
 
-  // ----------------------------------------------------------------- onClose
-  ws.onclose = (_) => {
-    const room = rooms.get(key)!;
-    const user = room.clients.find((u) => u.ws === ws);
-    const newClients = room.clients.filter((client) => client.ws !== ws);
+	// ----------------------------------------------------------------- onClose
+	ws.onclose = (_) => {
+		const room = rooms.get(key)!;
+		const user = room.clients.find((u) => u.ws === ws);
+		const newClients = room.clients.filter((client) => client.ws !== ws);
 
-    if (newClients.length == 0) {
-      rooms.delete(key);
-      return;
-    }
+		if (newClients.length == 0) {
+			rooms.delete(key);
+			return;
+		}
 
-    room.clients = newClients;
-    rooms.set(key, room);
+		room.clients = newClients;
+		rooms.set(key, room);
 
-    const message: MessageEvent = {
-      event: "send-message",
-      username: SERVER_NAME,
-      message: `${user?.username} has left the chat.`,
-      timestamp: Date.now(),
-    };
+		const message: MessageEvent = {
+			event: "send-message",
+			username: SERVER_NAME,
+			message: `${user?.username} has left the chat.`,
+			timestamp: Date.now(),
+		};
 
-    broadcastUsernames(key);
-    broadcast(
-      key,
-      JSON.stringify(message),
-    );
-  };
+		broadcastUsernames(key);
+		broadcast(key, JSON.stringify(message));
+	};
 
-  // ----------------------------------------------------------------- onMessage
-  ws.onmessage = (message) => {
-    const data = JSON.parse(message.data) as MessageEvent | UpdateUsersEvent;
-    const room = rooms.get(key)!;
-    const client = room.clients.find((c) => c.ws === ws);
+	// ----------------------------------------------------------------- onMessage
+	ws.onmessage = (message) => {
+		const data = JSON.parse(message.data) as AppEvents;
 
-    if (data.event === "send-message") {
-      broadcast(
-        key,
-        JSON.stringify({
-          event: "send-message",
-          username: client?.username || "anonymous",
-          message: data.message,
-          timestamp: Date.now(),
-        } as MessageEvent),
-      );
-    } else {
-      console.warn(`Unknown event: ${data.event}`);
-    }
-  };
+		switch (data.event) {
+			case "send-message":
+				differentiateEvent(key, data);
+				break;
+			case "moderator-message":
+				differentiateEvent(key, data);
+				break;
+			case "update-users":
+				break;
+			default:
+				console.warn(`Unknown Event: ${data}`);
+				break;
+		}
+	};
 
-  // ----------------------------------------------------------------- onError
-  ws.onerror = (e: Event | ErrorEvent) => {
-    console.error(e instanceof ErrorEvent ? e.message : e.type);
-  };
+	// ----------------------------------------------------------------- onError
+	ws.onerror = (e: Event | ErrorEvent) => {
+		console.error(e instanceof ErrorEvent ? e.message : e.type);
+	};
 }
+
+/**
+ * function used to differentiate each events and then handle it
+ * @param key
+ * @param event
+ * @returns
+ */
+function differentiateEvent(key: string, event: AppEvents) {
+	if (event.event === "send-message") {
+		const message: MessageEvent = {
+			timestamp: Date.now(),
+			event: "send-message",
+			username: event.username,
+			message: event.message,
+		};
+
+		broadcast(key, JSON.stringify(message));
+
+		return;
+	}
+
+	if (event.event === "moderator-message") {
+		manageModeratorMessage(event);
+		return;
+	}
+}
+
+// TODO: Work on command parsing and handling
+function manageModeratorMessage(_: ModeratorMessageEvent) {}

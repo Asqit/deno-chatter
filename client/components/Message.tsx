@@ -11,10 +11,10 @@ export default function Message(props: MessageProps) {
   if (isAuthor) {
     return (
       <li
-        className={"inline-block self-end justify-self-end animate-fade-in-up select-none group"}
+        className={"inline-block self-end justify-self-end animate-fade-in-down select-none group"}
       >
         <span
-          className={"bg-emerald-500 text-black rounded-xl float-right p-2 select-text"}
+          className={"bg-emerald-500 text-white rounded-xl float-right p-2 select-text"}
         >
           {value}
         </span>
@@ -29,7 +29,7 @@ export default function Message(props: MessageProps) {
   }
 
   return (
-    <li className={"inline-block animate-fade-in-up select-none"}>
+    <li className={"inline-block animate-fade-in-down select-none"}>
       <span
         className={"text-black dark:text-zinc-500 px-3 text-sm inline-block my-4"}
       >
