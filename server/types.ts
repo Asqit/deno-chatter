@@ -41,6 +41,7 @@ export interface UpdateUsersEvent extends BaseEvent {
 	usernames: string[];
 }
 
+/** Moderator events can change certain aspects of the chat */
 export interface ModeratorMessageEvent extends BaseEvent {
 	event: "moderator-message";
 	message: string;
