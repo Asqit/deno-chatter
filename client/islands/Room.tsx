@@ -119,7 +119,6 @@ export default function Room(props: RoomProps) {
       >
         <ControlPanel
           users={users}
-          closeMenuCallback={() => setIsMenuOpen(false)}
           username={username!}
           roomKey={roomKey!}
         />

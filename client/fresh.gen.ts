@@ -2,43 +2,44 @@
 // This file SHOULD be checked into source version control.
 // This file is automatically updated during development when running `dev.ts`.
 
-import * as $0 from "./routes/_404.tsx";
-import * as $1 from "./routes/_500.tsx";
-import * as $2 from "./routes/_app.tsx";
-import * as $3 from "./routes/create-room.tsx";
-import * as $4 from "./routes/faq.tsx";
-import * as $5 from "./routes/index.tsx";
-import * as $6 from "./routes/join-room.tsx";
-import * as $7 from "./routes/room/create/[key]/[username].tsx";
-import * as $8 from "./routes/room/join/[key]/[username].tsx";
-import * as $$0 from "./islands/Footer.tsx";
-import * as $$1 from "./islands/Hamburger.tsx";
-import * as $$2 from "./islands/Messages.tsx";
-import * as $$3 from "./islands/Room.tsx";
-import * as $$4 from "./islands/ThemeSwitcher.tsx";
-import * as $$5 from "./islands/VerifiedInput.tsx";
+import * as $_404 from "./routes/_404.tsx";
+import * as $_500 from "./routes/_500.tsx";
+import * as $_app from "./routes/_app.tsx";
+import * as $create_room from "./routes/create-room.tsx";
+import * as $faq from "./routes/faq.tsx";
+import * as $index from "./routes/index.tsx";
+import * as $join_room from "./routes/join-room.tsx";
+import * as $room_create_key_username_ from "./routes/room/create/[key]/[username].tsx";
+import * as $room_join_key_username_ from "./routes/room/join/[key]/[username].tsx";
+import * as $Footer from "./islands/Footer.tsx";
+import * as $Hamburger from "./islands/Hamburger.tsx";
+import * as $Messages from "./islands/Messages.tsx";
+import * as $Room from "./islands/Room.tsx";
+import * as $ThemeSwitcher from "./islands/ThemeSwitcher.tsx";
+import * as $VerifiedInput from "./islands/VerifiedInput.tsx";
+import { type Manifest } from "$fresh/server.ts";
 
 const manifest = {
   routes: {
-    "./routes/_404.tsx": $0,
-    "./routes/_500.tsx": $1,
-    "./routes/_app.tsx": $2,
-    "./routes/create-room.tsx": $3,
-    "./routes/faq.tsx": $4,
-    "./routes/index.tsx": $5,
-    "./routes/join-room.tsx": $6,
-    "./routes/room/create/[key]/[username].tsx": $7,
-    "./routes/room/join/[key]/[username].tsx": $8,
+    "./routes/_404.tsx": $_404,
+    "./routes/_500.tsx": $_500,
+    "./routes/_app.tsx": $_app,
+    "./routes/create-room.tsx": $create_room,
+    "./routes/faq.tsx": $faq,
+    "./routes/index.tsx": $index,
+    "./routes/join-room.tsx": $join_room,
+    "./routes/room/create/[key]/[username].tsx": $room_create_key_username_,
+    "./routes/room/join/[key]/[username].tsx": $room_join_key_username_,
   },
   islands: {
-    "./islands/Footer.tsx": $$0,
-    "./islands/Hamburger.tsx": $$1,
-    "./islands/Messages.tsx": $$2,
-    "./islands/Room.tsx": $$3,
-    "./islands/ThemeSwitcher.tsx": $$4,
-    "./islands/VerifiedInput.tsx": $$5,
+    "./islands/Footer.tsx": $Footer,
+    "./islands/Hamburger.tsx": $Hamburger,
+    "./islands/Messages.tsx": $Messages,
+    "./islands/Room.tsx": $Room,
+    "./islands/ThemeSwitcher.tsx": $ThemeSwitcher,
+    "./islands/VerifiedInput.tsx": $VerifiedInput,
   },
   baseUrl: import.meta.url,
-};
+} satisfies Manifest;
 
 export default manifest;
