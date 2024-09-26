@@ -8,7 +8,7 @@ export async function locate() {
         }
 
         const data = await response.json();
-        const kv = await Deno.openKv("geo")
+        const kv = await Deno.openKv()
 
         await kv.set(["geo-location", data.query], data);
     
